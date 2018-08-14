@@ -1,3 +1,4 @@
+##########################################################################################
 # GCP Vars
 # Project and Credentials must be configured via GCP Console
 # https://console.cloud.google.com/projectcreate
@@ -17,6 +18,21 @@ GKE_master_auth = [{
     password = "magic7s1234567890"
   }]
 
-###
+##########################################################################################
 # AWS Vars
-AWS_region      = "us-west-2" 
+AWS_region               = "us-west-2"
+AWS_worker_groups        = [
+    { 
+        "asg_desired_capacity" = "2",
+        "key_name"             = "braddown-ciscolaptop"
+  #     "asg_max_size"         = "10",
+  #     "asg_min_size"         = "2",
+  #     "instance_type"        = "m4.xlarge",
+  #     "name"                 = "worker_group_a",
+  #     "subnets"              = "${join(",", module.vpc.private_subnets)}",
+    }]
+
+
+
+
+##########################################################################################
