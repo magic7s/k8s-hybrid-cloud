@@ -3,9 +3,11 @@ variable GCP_credentials {}
 variable GCP_project {}
 variable GCP_region {}
 variable GKE_name {}
+variable GKE_min_ver {}
 variable GKE_zone {}
 variable GKE_additional_zones { type = "list" }
 variable GKE_master_auth {type = "list" }
+
 
 provider "google" {
   credentials = "${ var.GCP_credentials }"
@@ -16,6 +18,9 @@ provider "google" {
 resource "google_container_cluster" "primary" {
   name               = "${ var.GKE_name }"
   zone               = "${ var.GKE_zone }"
+  min_master_version = "${ var.GKE_min_ver }"
+  network            = "${module.gcp-vpc.self_link}"
+  subnetwork         = "${module.gcp-subnet1.self_link}"
   initial_node_count = 2
 
   additional_zones   = "${ var.GKE_additional_zones }"

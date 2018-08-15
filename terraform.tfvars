@@ -6,9 +6,12 @@
 # 
 GCP_project                    = "k8s-hybrid-cloud"
 GCP_credentials                = "/Users/braddown/.gcp/k8s-hybrid-cloud-8d6594f8105d.json"
+GCP_vpc_name                   = "hybrid-cloud"
 GCP_region                     = "us-west1"
-GCP_region_subnet              = "192.168.16.0/20"
+GCP_vpc_subnet                 = "192.168.16.0/20"
+GCP_subnet_name                = "hybrid-cloud-a"
 GKE_name                       = "hybrid-cloud"
+GKE_min_ver                    = "1.10"
 GKE_zone                       = "us-west1-a"
 GKE_additional_zones           = ["us-west1-b", "us-west1-c"]
 GKE_master_auth = [{
