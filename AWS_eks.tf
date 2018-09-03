@@ -1,12 +1,5 @@
 // Configure AWS EKS Cluster
 
-variable AWS_region {}
-variable AWS_worker_groups {type = "list"}
-
-provider "aws" {
-  region   = "${var.AWS_region}"
-}
-
 module "eks" {
   source                = "terraform-aws-modules/eks/aws"
   cluster_name          = "test-eks-cluster"

@@ -1,9 +1,5 @@
 // Configure new vpc and subnet for GCP
 
-variable GCP_vpc_name {}
-variable GCP_subnet_name {}
-variable GCP_vpc_subnet {}
-
 module "gcp-vpc" {
   source = "tasdikrahman/network/google"
   name   = "${var.GCP_vpc_name}"
