@@ -1,4 +1,4 @@
-# https://cloud.google.com/solutions/automated-network-deployment-multicloud
+// Configure AWS VPN Customer Gateway and VPN Connection
 
 resource "aws_customer_gateway" "main" {
   bgp_asn    = 65000
