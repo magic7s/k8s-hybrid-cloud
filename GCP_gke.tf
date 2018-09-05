@@ -28,12 +28,12 @@ resource "google_container_cluster" "primary" {
     tags = ["foo", "bar"]
   }
   provisioner "local-exec" {
-    command = "gcloud container clusters get-credentials ${ var.GKE_name }"
-    environment = { KUBECONFIG = "./kubeconfig_${var.GKE_name}"}
+    command = "gcloud container clusters get-credentials ${ google_container_cluster.primary.name }"
+    environment = { KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"}
   }
   provisioner "local-exec" {
     when    = "destroy"
-    command = "rm -f ./kubeconfig_${var.GKE_name}"
+    command = "rm -f ./kubeconfig_${google_container_cluster.primary.name}"
   }
 }
 
