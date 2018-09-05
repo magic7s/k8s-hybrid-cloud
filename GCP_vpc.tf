@@ -11,3 +11,12 @@ module "gcp-subnet1" {
   vpc               = "${module.gcp-vpc.self_link}"
   ip_cidr_range     = "${var.GCP_vpc_subnet}"
 }
+
+resource "google_compute_firewall" "aws-vpn-networks" {
+  name              = "aws-vpn-networks"
+  network           = "${module.gcp-vpc.self_link}"
+  source_ranges     = ["${var.AWS_vpc_subnet}"]
+  allow             {
+                    protocol = "all"
+  }
+}

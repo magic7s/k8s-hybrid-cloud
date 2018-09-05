@@ -11,6 +11,7 @@ module "vpc" {
 
   enable_nat_gateway = false
   enable_vpn_gateway = true
+  propagate_public_route_tables_vgw  = true
 
   tags = {
     Terraform = "true"

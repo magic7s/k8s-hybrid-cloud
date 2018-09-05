@@ -26,8 +26,8 @@ AWS_vpc_name                   = "hybrid-cloud"
 AWS_vpc_subnet                 = "192.168.0.0/20"
 AWS_azs                        = ["us-west-2a", "us-west-2b"]
 AWS_public_subnets             = ["192.168.1.0/24", "192.168.2.0/24"]
-
-AWS_worker_groups              = [
+EKS_name                       = "eks-hybrid-cloud"
+EKS_worker_groups              = [
     { 
         "asg_desired_capacity" = "2",
         "key_name"             = "braddown-ciscolaptop"
