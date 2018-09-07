@@ -5,6 +5,7 @@ _Requirements_
 * Must have AWS kubectl available in PATH
 * Must have AWS aws-iam-authenticator available in PATH
 * Must have gcloud cli available in PATH
+* Must have helm available in PATH
 
 
 _Resources_ - *This project makes use of many others contributions.*
