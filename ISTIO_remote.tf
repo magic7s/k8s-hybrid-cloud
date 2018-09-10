@@ -58,12 +58,14 @@ resource "null_resource" "istio-helm-init-remote" {
        KUBECONFIG = "./kubeconfig_${var.EKS_name}"
        #HELM_HOME  = "./.helm-eks/"
        }
-    command = "helm reset --force --remove-helm-home"
+    command = "helm reset --force"
   }
   depends_on = ["module.eks", "null_resource.istio-svc-act-remote"]
 }
 
 resource "null_resource" "istio-helm-repo-remote" {
+  # Using count = 0 to disable this resource due to bug. The repo is already added with the control cluster.
+  count = 0
   # Changes to any instance of the cluster requires re-provisioning
   triggers = {
     cluster_instance_cert = "${module.eks.cluster_certificate_authority_data}"
@@ -98,7 +100,7 @@ resource "null_resource" "istio-helm-install-remote" {
        KUBECONFIG = "./kubeconfig_${var.EKS_name}"
        #HELM_HOME  = "./.helm-eks/"
        }
-    command = "helm install ${var.ISTIO_chart_repo_name}/istio-remote --name istio-remote --namespace istio-system --set global.remotePilotAddress=${data.external.ISTO_CONTROL.result.PILOT_POD_IP} --set global.remotePolicyAddress=${data.external.ISTO_CONTROL.result.POLICY_POD_IP} --set global.remoteTelemetryAddress=${data.external.ISTO_CONTROL.result.TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${data.external.ISTO_CONTROL.result.STATSD_POD_IP} --set global.remoteZipkinAddress=${data.external.ISTO_CONTROL.result.ZIPKIN_POD_IP}"
+    command = "helm install ${var.ISTIO_chart_repo_name}/istio-remote --name istio-remote --namespace istio-system --set global.remotePilotAddress=${data.external.ISTO_CONTROL.result.PILOT_POD_IP} --set global.remotePolicyAddress=${data.external.ISTO_CONTROL.result.POLICY_POD_IP} --set global.remoteTelemetryAddress=${data.external.ISTO_CONTROL.result.TELEMETRY_POD_IP} --set global.proxy.envoyStatsd.enabled=true --set global.proxy.envoyStatsd.host=${data.external.ISTO_CONTROL.result.STATSD_POD_IP} --set global.remoteZipkinAddress=${data.external.ISTO_CONTROL.result.ZIPKIN_POD_IP}; sleep 120"
   }
   provisioner "local-exec" {
     when    = "destroy"
@@ -110,6 +112,3 @@ resource "null_resource" "istio-helm-install-remote" {
   }
   depends_on = ["null_resource.istio-helm-install", "module.eks", "null_resource.istio-helm-init-remote", "null_resource.istio-helm-repo-remote"]
 }
-
-# Add remote to istio control instance
-

@@ -98,7 +98,7 @@ resource "null_resource" "istio-helm-install" {
        KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"
        #HELM_HOME  = "./.helm-gcp/"
        }
-    command = "helm install ${var.ISTIO_chart_repo_name}/istio --name istio --namespace istio-system"
+    command = "helm install ${var.ISTIO_chart_repo_name}/istio --name istio --namespace istio-system --set grafana.enabled=true; sleep 120"
   }
   provisioner "local-exec" {
     when    = "destroy"
