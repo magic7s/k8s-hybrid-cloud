@@ -6,6 +6,7 @@ _Requirements_
 * Must have AWS aws-iam-authenticator available in PATH
 * Must have gcloud cli available in PATH
 * Must have helm available in PATH
+* Must install custom terrafrom plugin from https://github.com/mcuadros/terraform-provider-helm
 
 
 _Resources_ - *This project makes use of many others contributions.*
@@ -15,3 +16,4 @@ _Resources_ - *This project makes use of many others contributions.*
 * https://registry.terraform.io/modules/tasdikrahman/network/google/0.1.1
 * https://registry.terraform.io/modules/tasdikrahman/network-subnet/google/0.1.1
 * https://github.com/mariopoeta/terraform-google-cloudvpn-withoutbgp (code use)
+* https://github.com/mcuadros/terraform-provider-helm

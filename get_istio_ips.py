@@ -22,6 +22,7 @@ output = {}
 for var in (cmd_list):
   try:
     output[var] = subprocess.check_output(cmd_list[var].split(" "), stderr=subprocess.STDOUT, env=my_env)
+    output[var] = output[var].strip("\'")
   except Exception, e:
     output[var] = ""
 
