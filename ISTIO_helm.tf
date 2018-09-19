@@ -1,4 +1,41 @@
-// Install Helm on both clusters
+// Install Istio via Helm and Tiller on both clusters
+
+resource "null_resource" "istio-crd-gke" {
+  # Changes to any instance of the cluster requires re-provisioning
+  triggers = {
+    cluster_instance_cert = "${google_container_cluster.primary.master_auth.0.cluster_ca_certificate}"
+  }
+
+  provisioner "local-exec" {
+    environment = { KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"}
+    command = "kubectl apply -f ${var.ISTIO_crd_yaml_url}"
+  }
+  provisioner "local-exec" {
+    when    = "destroy"
+    environment = { KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"}
+    command = "kubectl delete -f ${var.ISTIO_crd_yaml_url}"
+  }
+  depends_on = ["google_container_cluster.primary"]
+}
+
+resource "null_resource" "istio-crd-eks" {
+  # Changes to any instance of the cluster requires re-provisioning
+  triggers = {
+    cluster_instance_cert = "${module.eks.cluster_certificate_authority_data}"
+  }
+
+  provisioner "local-exec" {
+    environment = { KUBECONFIG = "./kubeconfig_${var.EKS_name}"}
+    command = "kubectl apply -f ${var.ISTIO_crd_yaml_url}"
+  }
+  provisioner "local-exec" {
+    when    = "destroy"
+    environment = { KUBECONFIG = "./kubeconfig_${var.EKS_name}"}
+    command = "kubectl delete -f ${var.ISTIO_crd_yaml_url}"
+  }
+  depends_on = ["module.eks"]
+}
+
 
 resource "null_resource" "istio-svc-act-gke" {
   # Changes to any instance of the cluster requires re-provisioning
@@ -51,7 +88,7 @@ resource "helm_release" "istio-control-gke" {
     name = "grafana.enabled"
     value = "true"
   }
-  depends_on = ["null_resource.istio-svc-act-gke"]
+  depends_on = ["null_resource.istio-svc-act-gke", "null_resource.istio-crd-gke"]
 }
 
 resource "helm_release" "istio-remote-eks" {
@@ -88,5 +125,5 @@ resource "helm_release" "istio-remote-eks" {
     name = "global.remoteZipkinAddress"
     value = "${lookup(data.external.ISTO_CONTROL.result, "ZIPKIN_POD_IP")}"
   }
-  depends_on = ["null_resource.istio-svc-act-eks", "helm_release.istio-control-gke", "data.external.ISTO_CONTROL"]
+  depends_on = ["null_resource.istio-svc-act-eks", "helm_release.istio-control-gke", "data.external.ISTO_CONTROL", "null_resource.istio-crd-gke"]
 }
