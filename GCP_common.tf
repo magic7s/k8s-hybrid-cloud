@@ -11,7 +11,7 @@ variable GKE_master_auth {type = "list" }
 variable GCP_vpc_name {}
 variable GCP_subnet_name {}
 variable GCP_vpc_subnet {}
-
+variable GKE_cluster_ip {}
 
 provider "google" {
   credentials = "${ var.GCP_credentials }"

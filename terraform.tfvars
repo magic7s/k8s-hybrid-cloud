@@ -8,10 +8,11 @@ GCP_project                    = "k8s-hybrid-cloud"
 GCP_credentials                = "/Users/braddown/.gcp/k8s-hybrid-cloud-8d6594f8105d.json"
 GCP_vpc_name                   = "hybrid-cloud"
 GCP_region                     = "us-west1"
-GCP_vpc_subnet                 = "192.168.16.0/20"
+GCP_vpc_subnet                 = "172.17.0.0/16"
 GCP_subnet_name                = "hybrid-cloud-a"
 GKE_name                       = "gke-hybrid-cloud"
 GKE_min_ver                    = "1.10"
+GKE_cluster_ip                 = "172.17.128.0/17"
 GKE_zone                       = "us-west1-a"
 GKE_additional_zones           = ["us-west1-b", "us-west1-c"]
 GKE_master_auth = [{
@@ -23,9 +24,9 @@ GKE_master_auth = [{
 # AWS Vars
 AWS_region                     = "us-west-2"
 AWS_vpc_name                   = "hybrid-cloud"
-AWS_vpc_subnet                 = "192.168.0.0/20"
+AWS_vpc_subnet                 = "172.16.0.0/16"
 AWS_azs                        = ["us-west-2a", "us-west-2b"]
-AWS_public_subnets             = ["192.168.1.0/24", "192.168.2.0/24"]
+AWS_public_subnets             = ["172.16.0.0/20", "172.16.16.0/20"]
 EKS_name                       = "eks-hybrid-cloud"
 EKS_worker_groups              = [
     { 
