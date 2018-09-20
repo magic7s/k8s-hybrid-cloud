@@ -8,7 +8,7 @@ resource "null_resource" "istio-crd-gke" {
 
   provisioner "local-exec" {
     environment = { KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"}
-    command = "kubectl apply -f ${var.ISTIO_crd_yaml_url}"
+    command = "kubectl apply -f ${var.ISTIO_crd_yaml_url}; sleep 120"
   }
   provisioner "local-exec" {
     when    = "destroy"
@@ -26,7 +26,7 @@ resource "null_resource" "istio-crd-eks" {
 
   provisioner "local-exec" {
     environment = { KUBECONFIG = "./kubeconfig_${var.EKS_name}"}
-    command = "kubectl apply -f ${var.ISTIO_crd_yaml_url}"
+    command = "kubectl apply -f ${var.ISTIO_crd_yaml_url}; sleep 120"
   }
   provisioner "local-exec" {
     when    = "destroy"
