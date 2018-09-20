@@ -25,3 +25,8 @@ resource "aws_vpn_connection_route" "gcp_hybrid_cloud" {
   destination_cidr_block = "${var.GCP_vpc_subnet}"
   vpn_connection_id      = "${aws_vpn_connection.preshared.id}"
 }
+
+resource "aws_vpn_connection_route" "gcp_cluster_net" {
+  destination_cidr_block = "${var.GKE_cluster_ip}"
+  vpn_connection_id      = "${aws_vpn_connection.preshared.id}"
+}
