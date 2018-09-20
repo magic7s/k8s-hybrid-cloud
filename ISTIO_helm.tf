@@ -88,6 +88,10 @@ resource "helm_release" "istio-control-gke" {
     name = "grafana.enabled"
     value = "true"
   }
+  provisioner "local-exec" {
+    environment = { KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"}
+    command = "kubectl label namespace default istio-injection=enabled"
+  }
   depends_on = ["null_resource.istio-svc-act-gke", "null_resource.istio-crd-gke"]
 }
 
@@ -124,6 +128,10 @@ resource "helm_release" "istio-remote-eks" {
   set {
     name = "global.remoteZipkinAddress"
     value = "${lookup(data.external.ISTO_CONTROL.result, "ZIPKIN_POD_IP")}"
+  }
+  provisioner "local-exec" {
+    environment = { KUBECONFIG = "./kubeconfig_${var.EKS_name}"}
+    command = "kubectl label namespace default istio-injection=enabled"
   }
   depends_on = ["null_resource.istio-svc-act-eks", "helm_release.istio-control-gke", "data.external.ISTO_CONTROL", "null_resource.istio-crd-gke"]
 }
