@@ -92,6 +92,11 @@ resource "helm_release" "istio-control-gke" {
     environment = { KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"}
     command = "kubectl label namespace default istio-injection=enabled"
   }
+  provisioner "local-exec" {
+    when    = "destroy"
+    environment = { KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"}
+    command = "kubectl label namespace default istio-injection-"
+  }
   depends_on = ["null_resource.istio-svc-act-gke", "null_resource.istio-crd-gke"]
 }
 
@@ -132,6 +137,11 @@ resource "helm_release" "istio-remote-eks" {
   provisioner "local-exec" {
     environment = { KUBECONFIG = "./kubeconfig_${var.EKS_name}"}
     command = "kubectl label namespace default istio-injection=enabled"
+  }
+  provisioner "local-exec" {
+    when    = "destroy"
+    environment = { KUBECONFIG = "./kubeconfig_${var.EKS_name}"}
+    command = "kubectl label namespace default istio-injection-"
   }
   depends_on = ["null_resource.istio-svc-act-eks", "helm_release.istio-control-gke", "data.external.ISTO_CONTROL", "null_resource.istio-crd-gke"]
 }
