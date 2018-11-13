@@ -36,7 +36,8 @@ EKS_worker_groups              = [
 
 ##########################################################################################
 # Istio Vars
-ISTIO_crd_yaml_url              = "https://raw.githubusercontent.com/istio/istio/1.0.1/install/kubernetes/helm/istio/templates/crds.yaml"
-ISTIO_helm_yaml_url             = "https://raw.githubusercontent.com/istio/istio/1.0.1/install/kubernetes/helm/helm-service-account.yaml"
+ISTIO_crd_yaml_url              = "https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/istio/templates/crds.yaml"
+ISTIO_helm_yaml_url             = "https://raw.githubusercontent.com/istio/istio/master/install/kubernetes/helm/helm-service-account.yaml"
 ISTIO_chart_repo                = "https://s3-us-west-2.amazonaws.com/vxlan.io/charts"
 ISTIO_chart_repo_name           = "istio"
+ISTIO_version                   = "1.0.2"

@@ -83,6 +83,7 @@ resource "helm_release" "istio-control-gke" {
   repository = "${var.ISTIO_chart_repo_name}"
   name = "istio"
   chart = "istio"
+  version = "${var.ISTIO_version}"
   namespace = "istio-system"
   set {
     name = "grafana.enabled"
@@ -105,6 +106,7 @@ resource "helm_release" "istio-remote-eks" {
   repository = "${var.ISTIO_chart_repo_name}"
   name = "istio-remote"
   chart = "istio-remote"
+  version = "${var.ISTIO_version}"
   namespace = "istio-system"
   set {
     name = "grafana.enabled"
