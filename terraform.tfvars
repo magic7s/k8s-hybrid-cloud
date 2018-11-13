@@ -5,7 +5,7 @@
 # https://console.cloud.google.com/apis/credentials
 # 
 GCP_project                    = "k8s-hybrid-cloud"
-GCP_credentials                = "/Users/braddown/.gcp/k8s-hybrid-cloud-8d6594f8105d.json"
+GCP_credentials                = "/Users/braddown/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json"
 GCP_vpc_name                   = "hybrid-cloud"
 GCP_region                     = "us-west1"
 GCP_vpc_subnet                 = "172.17.0.0/17"
