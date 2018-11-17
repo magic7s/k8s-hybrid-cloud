@@ -52,7 +52,7 @@ resource "helm_release" "istio-control-gke" {
     name = "grafana.enabled"
     value = "true"
   }
-  depends_on = ["null_resource.istio-svc-act-gke"]
+  depends_on = ["null_resource.istio-svc-act-gke", "helm_repository.istio"]
 }
 
 // Gather IP Info from Istio Cluster
@@ -96,7 +96,7 @@ resource "helm_release" "istio-remote-eks" {
     name = "global.remoteZipkinAddress"
     value = "${lookup(data.external.ISTO_CONTROL.result, "ZIPKIN_POD_IP")}"
   }
-  depends_on = ["null_resource.istio-svc-act-eks", "helm_release.istio-control-gke", "data.external.ISTO_CONTROL"]
+  depends_on = ["module.eks", "null_resource.istio-svc-act-eks", "helm_release.istio-control-gke", "data.external.ISTO_CONTROL", "helm_repository.istio"]
 }
 
 // Label namespace with istio automatic injection
