@@ -1,10 +1,7 @@
 #/usr/bin/env bash
 
-#export KUBECONFIG="./kubeconfig_eks-hybrid-cloud"
 export KUBECONFIG=$1
 export WORK_DIR=$(pwd)
-#CLUSTER_NAME="$(kubectl config view --minify=true -o "jsonpath={.clusters[].name}")"
-#CLUSTER_NAME="eks-hybrid-cloud"
 CLUSTER_NAME=$2
 export KUBECFG_FILE=${WORK_DIR}/remote-cluster-auth
 SERVER=$(kubectl config view --minify=true -o "jsonpath={.clusters[].cluster.server}")
@@ -35,7 +32,6 @@ users:
        token: ${TOKEN}
 EOF
 
-#export KUBECONFIG="./kubeconfig_gke-hybrid-cloud"
 export KUBECONFIG=$3
 kubectl create secret generic ${CLUSTER_NAME} --from-file ${KUBECFG_FILE} -n ${NAMESPACE}
 kubectl label secret ${CLUSTER_NAME} istio/multiCluster=true -n ${NAMESPACE}
