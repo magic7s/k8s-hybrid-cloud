@@ -7,12 +7,12 @@ resource "null_resource" "istio-svc-act-gke" {
   }
 
   provisioner "local-exec" {
-    environment = { KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"}
+    environment = { KUBECONFIG = "${ local.control_cluster_kubeconfig }"}
     command = "kubectl apply -f ${var.ISTIO_helm_yaml_url}"
   }
   provisioner "local-exec" {
     when    = "destroy"
-    environment = { KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"}
+    environment = { KUBECONFIG = "${ local.control_cluster_kubeconfig }"}
     command = "kubectl delete -f ${var.ISTIO_helm_yaml_url}"
   }
   depends_on = ["google_container_cluster.primary"]
@@ -25,12 +25,12 @@ resource "null_resource" "istio-svc-act-eks" {
   }
 
   provisioner "local-exec" {
-    environment = { KUBECONFIG = "./kubeconfig_${var.EKS_name}"}
+    environment = { KUBECONFIG = "${ local.remote_cluster_kubeconfig }"}
     command = "kubectl apply -f ${var.ISTIO_helm_yaml_url}"
   }
   provisioner "local-exec" {
     when    = "destroy"
-    environment = { KUBECONFIG = "./kubeconfig_${var.EKS_name}"}
+    environment = { KUBECONFIG = "${ local.remote_cluster_kubeconfig }"}
     command = "kubectl delete -f ${var.ISTIO_helm_yaml_url}"
   }
   depends_on = ["module.eks"]
@@ -57,7 +57,7 @@ resource "helm_release" "istio-control-gke" {
 
 // Gather IP Info from Istio Cluster
 data "external" "ISTO_CONTROL" {
-  program = ["bash", "-c", "./get_istio_ips.py kubeconfig_${google_container_cluster.primary.name}"]
+  program = ["bash", "-c", "./get_istio_ips.py ${ local.control_cluster_kubeconfig }"]
   depends_on = ["helm_release.istio-control-gke"]
 }
 
@@ -107,12 +107,12 @@ resource "null_resource" "istio-namespace-label-gke" {
   }
   
   provisioner "local-exec" {
-    environment = { KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"}
+    environment = { KUBECONFIG = "${ local.control_cluster_kubeconfig }"}
     command = "kubectl label namespace default istio-injection=enabled"
   }
   provisioner "local-exec" {
     when    = "destroy"
-    environment = { KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"}
+    environment = { KUBECONFIG = "${ local.control_cluster_kubeconfig }"}
     command = "kubectl label namespace default istio-injection-"
   }
   depends_on = ["helm_release.istio-control-gke"]
@@ -126,12 +126,12 @@ resource "null_resource" "istio-namespace-label-eks" {
   }
   
   provisioner "local-exec" {
-    environment = { KUBECONFIG = "./kubeconfig_${var.EKS_name}"}
+    environment = { KUBECONFIG = "${ local.remote_cluster_kubeconfig }"}
     command = "kubectl label namespace default istio-injection=enabled"
   }
   provisioner "local-exec" {
     when    = "destroy"
-    environment = { KUBECONFIG = "./kubeconfig_${var.EKS_name}"}
+    environment = { KUBECONFIG = "${ local.remote_cluster_kubeconfig }"}
     command = "kubectl label namespace default istio-injection-"
   }
   depends_on = ["helm_release.istio-remote-eks"]
