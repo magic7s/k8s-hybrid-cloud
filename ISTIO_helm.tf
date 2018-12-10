@@ -52,6 +52,18 @@ resource "helm_release" "istio-control-gke" {
     name = "grafana.enabled"
     value = "true"
   }
+  set {
+    name = "kiali.enabled"
+    value = "true"
+  }
+  set {
+    name = "tracing.enabled"
+    value = "true"
+  }
+  set {
+    name = "servicegraph.enabled"
+    value = "true"
+  }
   depends_on = ["null_resource.istio-svc-act-gke", "helm_repository.istio"]
 }
 
@@ -68,10 +80,6 @@ resource "helm_release" "istio-remote-eks" {
   chart = "istio-remote"
   version = "${var.ISTIO_version}"
   namespace = "istio-system"
-  set {
-    name = "grafana.enabled"
-    value = "true"
-  }
   set {
     name = "global.remotePilotAddress"
     value = "${lookup(data.external.ISTO_CONTROL.result, "PILOT_POD_IP")}"
