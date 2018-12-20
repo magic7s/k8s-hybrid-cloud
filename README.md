@@ -9,7 +9,7 @@ _Requirements_
 * Must install custom terrafrom plugin from https://github.com/mcuadros/terraform-provider-helm
 
 ### Environment
-![Infra](k8s-hybrid-cloud-hybrid-cloud.png.png)
+![Infra](k8s-hybrid-cloud-hybrid-cloud.png)
 
 ### Sample App - Bookinfo
 ![Bookinfo](bookinfo-hybrid.png)
