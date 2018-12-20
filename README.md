@@ -8,6 +8,11 @@ _Requirements_
 * Must have helm available in PATH
 * Must install custom terrafrom plugin from https://github.com/mcuadros/terraform-provider-helm
 
+### Environment
+![Infra](k8s-hybrid-cloud-hybrid-cloud.png.png)
+
+### Sample App - Bookinfo
+![Bookinfo](bookinfo-hybrid.png)
 
 Steps to execute (assuming above requirements are meet):
 ```bash
