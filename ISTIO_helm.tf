@@ -48,22 +48,13 @@ resource "helm_release" "istio-control-gke" {
   chart = "istio"
   version = "${var.ISTIO_version}"
   namespace = "istio-system"
-  set {
-    name = "grafana.enabled"
-    value = "true"
-  }
-  set {
-    name = "kiali.enabled"
-    value = "true"
-  }
-  set {
-    name = "tracing.enabled"
-    value = "true"
-  }
-  set {
-    name = "servicegraph.enabled"
-    value = "true"
-  }
+  values = [<<EOF
+grafana.enabled : true
+kiali.enabled : true
+tracing.enabled : true
+servicegraph.enabled : true
+EOF
+  ]
   depends_on = ["null_resource.istio-svc-act-gke", "helm_repository.istio"]
 }
 
@@ -80,30 +71,15 @@ resource "helm_release" "istio-remote-eks" {
   chart = "istio-remote"
   version = "${var.ISTIO_version}"
   namespace = "istio-system"
-  set {
-    name = "global.remotePilotAddress"
-    value = "${lookup(data.external.ISTO_CONTROL.result, "PILOT_POD_IP")}"
-  }
-  set {
-    name = "global.remotePolicyAddress"
-    value = "${lookup(data.external.ISTO_CONTROL.result, "POLICY_POD_IP")}"
-  }
-  set {
-    name = "global.remoteTelemetryAddress"
-	value = "${lookup(data.external.ISTO_CONTROL.result, "TELEMETRY_POD_IP")}"
-  }
-  set {
-    name = "global.proxy.envoyStatsd.enabled"
-    value = "true"
-  }
-  set {
-    name = "global.proxy.envoyStatsd.host"
-    value = "${lookup(data.external.ISTO_CONTROL.result, "STATSD_POD_IP")}"
-  }
-  set {
-    name = "global.remoteZipkinAddress"
-    value = "${lookup(data.external.ISTO_CONTROL.result, "ZIPKIN_POD_IP")}"
-  }
+  values = [<<EOF
+global.remotePilotAddress : "${lookup(data.external.ISTO_CONTROL.result, "PILOT_POD_IP")}"
+global.remotePolicyAddress : "${lookup(data.external.ISTO_CONTROL.result, "POLICY_POD_IP")}"
+global.remoteTelemetryAddress : "${lookup(data.external.ISTO_CONTROL.result, "TELEMETRY_POD_IP")}"
+global.proxy.envoyStatsd.enabled : true
+global.proxy.envoyStatsd.host : "${lookup(data.external.ISTO_CONTROL.result, "STATSD_POD_IP")}"
+global.remoteZipkinAddress : "${lookup(data.external.ISTO_CONTROL.result, "ZIPKIN_POD_IP")}"
+EOF
+  ]
   depends_on = ["module.eks", "null_resource.istio-svc-act-eks", "helm_release.istio-control-gke", "data.external.ISTO_CONTROL", "helm_repository.istio"]
 }
 
