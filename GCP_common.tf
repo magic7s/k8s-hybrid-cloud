@@ -14,7 +14,7 @@ variable GCP_vpc_subnet {}
 variable GKE_cluster_ip {}
 
 provider "google" {
-  credentials = "${ var.GCP_credentials }"
+  credentials = "${ file(var.GCP_credentials) }"
   project     = "${ var.GCP_project }"
   region      = "${ var.GCP_region }"
 } 
