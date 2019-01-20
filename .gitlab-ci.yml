@@ -7,7 +7,7 @@ image:
 before_script:
   - rm -rf .terraform
   - terraform --version
-  - mkdir -p ~./gcp
+  - mkdir -p ~/.gcp
   - echo $GCPCRED | base64 -d > ~/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
   - terraform init
 
