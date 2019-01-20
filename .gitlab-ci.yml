@@ -15,6 +15,7 @@ stages:
   - validate
   - plan
   - apply
+  - destroy
 
 validate:
   stage: validate
@@ -37,4 +38,15 @@ apply:
     - terraform apply -input=false "planfile"
   dependencies:
     - plan
+  artifacts:
+    paths:
+      - terraform.tfstate
+  when: manual
+  
+destroy:
+  stage: destroy
+  script:
+    - terraform destroy
+  dependencies:
+    - apply
   when: manual
