@@ -41,6 +41,7 @@ apply:
   artifacts:
     paths:
       - terraform.tfstate
+    when: always
   when: manual
   
 destroy:
