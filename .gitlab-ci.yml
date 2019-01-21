@@ -26,9 +26,9 @@ before_script:
   - mkdir -p ~/.gcp
   - echo $GCPCRED | base64 -d > ~/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
   - gcloud auth activate-service-account --key-file=/root/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
-  - gcloud config set core project k8s-hybrid-cloud
-  - gcloud config set compute region us-west1
-  - gcloud config set compute zone us-west1-a
+  - gcloud config set core/project k8s-hybrid-cloud
+  - gcloud config set compute/region us-west1
+  - gcloud config set compute/zone us-west1-a
   - gcloud projects list
   - terraform init
 
