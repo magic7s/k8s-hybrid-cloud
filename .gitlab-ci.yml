@@ -50,4 +50,8 @@ destroy:
     - terraform destroy -auto-approve
   dependencies:
     - apply
+  artifacts:
+    paths:
+      - terraform.tfstate
+    when: always
   when: manual
