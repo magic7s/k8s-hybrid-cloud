@@ -1,11 +1,11 @@
 image:
-  name: hashicorp/terraform:light
+  name: google/cloud-sdk
   entrypoint:
     - '/usr/bin/env'
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
 before_script:
-  - rm -rf .terraform
+  - apt-get install terraform -qqy
   - terraform --version
   - mkdir -p ~/.gcp
   - echo $GCPCRED | base64 -d > ~/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
