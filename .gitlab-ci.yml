@@ -17,6 +17,8 @@ before_script:
   - install linux-amd64/tiller /usr/local/bin/
   - install linux-amd64/helm /usr/local/bin/
   - helm init --client-only
+  - curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator
+  - install aws-iam-authenticator
   - mkdir -p ~/.gcp
   - echo $GCPCRED | base64 -d > ~/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
   - terraform init
@@ -51,6 +53,8 @@ apply:
   artifacts:
     paths:
       - terraform.tfstate
+      - kubeconfig_gke-hybrid-cloud
+      - kubeconfig_eks-hybrid-cloud
     when: always
   when: manual
   
