@@ -53,5 +53,6 @@ destroy:
   artifacts:
     paths:
       - terraform.tfstate
+      - terraform.tfstate.backup
     when: always
   when: manual
