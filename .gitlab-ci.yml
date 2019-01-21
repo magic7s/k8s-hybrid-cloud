@@ -14,7 +14,8 @@ before_script:
   - terraform --version
   - curl -O https://storage.googleapis.com/kubernetes-helm/helm-v2.12.2-linux-amd64.tar.gz
   - tar -xzvf helm-v2.12.2-linux-amd64.tar.gz
-  - install helm /usr/local/bin/
+  - install linux-amd64/tiller /usr/local/bin/
+  - install linux-amd64/helm /usr/local/bin/
   - helm init --client-only
   - mkdir -p ~/.gcp
   - echo $GCPCRED | base64 -d > ~/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
