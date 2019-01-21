@@ -8,7 +8,7 @@ before_script:
   - apt-get install -qqy unzip
   - curl -O https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip
   - unzip terraform_0.11.11_linux_amd64.zip
-  - sudo install terraform /usr/local/bin/
+  - install terraform /usr/local/bin/
   - terraform --version
   - mkdir -p ~/.gcp
   - echo $GCPCRED | base64 -d > ~/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
