@@ -62,7 +62,8 @@ apply:
   cache:
     key: helm-cache
     paths:
-      - /root/.helm
+      - /root/.helm/
+    policy: pull
   artifacts:
     paths:
       - terraform.tfstate
@@ -79,6 +80,9 @@ destroy:
     - apply
   cache:
     key: helm-cache
+    paths:
+      - /root/.helm/
+    policy: pull
   artifacts:
     paths:
       - terraform.tfstate
