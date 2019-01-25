@@ -1,6 +1,5 @@
 // Configure the Google Cloud provider
 
-
 resource "google_container_cluster" "primary" {
   name               = "${ var.GKE_name }"
   zone               = "${ var.GKE_zone }"
@@ -10,9 +9,9 @@ resource "google_container_cluster" "primary" {
   cluster_ipv4_cidr  = "${ var.GKE_cluster_ip }"
   initial_node_count = 2
 
-  additional_zones   = "${ var.GKE_additional_zones }"
+  additional_zones = "${ var.GKE_additional_zones }"
 
-  master_auth        = "${ var.GKE_master_auth }"
+  master_auth = "${ var.GKE_master_auth }"
 
   node_config {
     oauth_scopes = [
@@ -28,14 +27,17 @@ resource "google_container_cluster" "primary" {
 
     tags = ["foo", "bar"]
   }
+
   provisioner "local-exec" {
     command = "gcloud container clusters get-credentials ${ google_container_cluster.primary.name }"
-    environment = { KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"}
+
+    environment = {
+      KUBECONFIG = "./kubeconfig_${google_container_cluster.primary.name}"
+    }
   }
+
   provisioner "local-exec" {
     when    = "destroy"
     command = "rm -f ./kubeconfig_${google_container_cluster.primary.name}"
   }
 }
-
-
