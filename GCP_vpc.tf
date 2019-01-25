@@ -6,17 +6,18 @@ module "gcp-vpc" {
 }
 
 module "gcp-subnet1" {
-  source            = "tasdikrahman/network-subnet/google"
-  name              = "${var.GCP_subnet_name}"
-  vpc               = "${module.gcp-vpc.self_link}"
-  ip_cidr_range     = "${var.GCP_vpc_subnet}"
+  source        = "tasdikrahman/network-subnet/google"
+  name          = "${var.GCP_subnet_name}"
+  vpc           = "${module.gcp-vpc.self_link}"
+  ip_cidr_range = "${var.GCP_vpc_subnet}"
 }
 
 resource "google_compute_firewall" "aws-vpn-networks" {
-  name              = "aws-vpn-networks"
-  network           = "${module.gcp-vpc.self_link}"
-  source_ranges     = ["${var.AWS_vpc_subnet}"]
-  allow             {
-                    protocol = "all"
+  name          = "aws-vpn-networks"
+  network       = "${module.gcp-vpc.self_link}"
+  source_ranges = ["${var.AWS_vpc_subnet}"]
+
+  allow {
+    protocol = "all"
   }
 }
