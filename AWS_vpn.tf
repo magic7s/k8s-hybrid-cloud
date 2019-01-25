@@ -12,13 +12,11 @@ resource "aws_customer_gateway" "main" {
 
 ### Preshared Key only
 resource "aws_vpn_connection" "preshared" {
-
   vpn_gateway_id      = "${module.vpc.vgw_id}"
   customer_gateway_id = "${aws_customer_gateway.main.id}"
   type                = "ipsec.1"
 
-  static_routes_only  = true
-
+  static_routes_only = true
 }
 
 resource "aws_vpn_connection_route" "gcp_hybrid_cloud" {

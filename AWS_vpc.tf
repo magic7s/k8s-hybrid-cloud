@@ -6,15 +6,15 @@ module "vpc" {
   name = "${ var.AWS_vpc_name }"
   cidr = "${ var.AWS_vpc_subnet }"
 
-  azs             = "${ var.AWS_azs }"
-  public_subnets  = "${ var.AWS_public_subnets }"
+  azs            = "${ var.AWS_azs }"
+  public_subnets = "${ var.AWS_public_subnets }"
 
-  enable_nat_gateway = false
-  enable_vpn_gateway = true
-  propagate_public_route_tables_vgw  = true
+  enable_nat_gateway                = false
+  enable_vpn_gateway                = true
+  propagate_public_route_tables_vgw = true
 
   tags = {
-    Terraform = "true"
+    Terraform   = "true"
     Environment = "dev"
   }
 }
