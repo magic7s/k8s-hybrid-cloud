@@ -3,3 +3,4 @@ terraform.tfstate
 terraform.tfstate.*
 terraform.tfstate.backup
 kubeconfig_*
+.DS_Store
