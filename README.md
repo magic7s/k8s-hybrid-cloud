@@ -15,7 +15,7 @@ _Requirements_
 ### Sample App - Bookinfo
 ![Bookinfo](bookinfo-hybrid.png)
 
-Update or delete BACKEND.tf to use local terraform.tfstate
+**Update or delete BACKEND.tf to use local terraform.tfstate**
 
 Steps to execute (assuming above requirements are meet):
 ```bash
