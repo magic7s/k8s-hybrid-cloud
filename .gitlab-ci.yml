@@ -64,6 +64,8 @@ apply:
       - terraform.tfstate
       - kubeconfig_gke-hybrid-cloud
       - kubeconfig_eks-hybrid-cloud
+      - config-map-aws-auth_eks-hybrid-cloud.yaml
+      - remote-cluster-auth
     when: always
   when: manual
   
