@@ -59,11 +59,6 @@ apply:
     - terraform apply -input=false -auto-approve "planfile"
   dependencies:
     - plan
-  cache:
-    key: helm-cache
-    paths:
-      - /root/.helm/
-    policy: push
   artifacts:
     paths:
       - terraform.tfstate
@@ -75,14 +70,10 @@ apply:
 destroy:
   stage: destroy
   script:
+    - terraform state rm helm_repository.istio 
     - terraform destroy -auto-approve
   dependencies:
     - apply
-  cache:
-    key: helm-cache
-    paths:
-      - /root/.helm/
-    policy: pull
   artifacts:
     paths:
       - terraform.tfstate
