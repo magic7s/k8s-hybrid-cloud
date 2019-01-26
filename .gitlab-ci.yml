@@ -1,5 +1,5 @@
 image:
-  name: google/cloud-sdk
+  name: registry.gitlab.com/magic7s/k8s-hybrid-cloud:latest
   entrypoint:
     - '/usr/bin/env'
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
