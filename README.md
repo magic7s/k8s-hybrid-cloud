@@ -15,10 +15,9 @@ _Requirements_
 ### Sample App - Bookinfo
 ![Bookinfo](bookinfo-hybrid.png)
 
-**Update or delete BACKEND.tf to use local terraform.tfstate**
-
 Steps to execute (assuming above requirements are meet):
 ```bash
+# Update or delete BACKEND.tf to use local terraform.tfstate
 terraform init
 terraform apply
 #-- An error will be thrown. See bug https://github.com/magic7s/k8s-hybrid-cloud/issues/3
