@@ -1,5 +1,6 @@
 # Kubernetes Hybrid Cloud
 ## Building a hybrid cloud with Kubernetes and Terraform
+Also hosted at https://gitlab.com/magic7s/k8s-hybrid-cloud for CI/CD capabilities.
 
 _Requirements_
 * Must have AWS kubectl available in PATH
