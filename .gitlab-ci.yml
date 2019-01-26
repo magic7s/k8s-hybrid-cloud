@@ -63,7 +63,7 @@ apply:
     key: helm-cache
     paths:
       - /root/.helm/
-    policy: pull
+    policy: push
   artifacts:
     paths:
       - terraform.tfstate
