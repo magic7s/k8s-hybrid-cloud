@@ -61,7 +61,6 @@ apply:
     - plan
   artifacts:
     paths:
-      - terraform.tfstate
       - kubeconfig_gke-hybrid-cloud
       - kubeconfig_eks-hybrid-cloud
       - config-map-aws-auth_eks-hybrid-cloud.yaml
@@ -76,9 +75,4 @@ destroy:
     - terraform destroy -auto-approve
   dependencies:
     - apply
-  artifacts:
-    paths:
-      - terraform.tfstate
-      - terraform.tfstate.backup
-    when: always
   when: manual
