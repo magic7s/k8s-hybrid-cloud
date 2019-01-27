@@ -2,7 +2,7 @@
 ## Building a hybrid cloud with Kubernetes and Terraform
 Also hosted at https://gitlab.com/magic7s/k8s-hybrid-cloud for CI/CD capabilities.
 
-_Requirements_
+### Requirements
 
 Either install the requirements below or use the Dockerfile. You can also leverage gitlab CI/CD to run the container for you.
 
@@ -25,7 +25,7 @@ docker run -it myimage
 ### Sample App - Bookinfo
 ![Bookinfo](bookinfo-hybrid.png)
 
-Steps to execute (assuming above requirements are meet):
+### Steps to execute (assuming above requirements are meet):
 ```bash
 # Update or delete BACKEND.tf to use local terraform.tfstate
 terraform init
