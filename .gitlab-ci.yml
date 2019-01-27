@@ -26,6 +26,15 @@ stages:
   - apply
   - destroy
 
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - ~/.helm/
+    - kubeconfig_gke-hybrid-cloud
+    - kubeconfig_eks-hybrid-cloud
+    - config-map-aws-auth_eks-hybrid-cloud.yaml
+    - remote-cluster-auth
+
 docker build:
   image: docker:stable
   variables:
@@ -54,14 +63,6 @@ validate:
 
 plan:
   stage: plan
-  cache:
-    key: "$CI_COMMIT_REF_SLUG"
-    paths:
-      - ~/.helm/
-      - kubeconfig_gke-hybrid-cloud
-      - kubeconfig_eks-hybrid-cloud
-      - config-map-aws-auth_eks-hybrid-cloud.yaml
-      - remote-cluster-auth
   script:
     - terraform plan -out "planfile"
   dependencies:
@@ -73,14 +74,6 @@ plan:
 apply:
   stage: apply
   retry: 1
-  cache:
-    key: "$CI_COMMIT_REF_SLUG"
-    paths:
-      - ~/.helm/
-      - kubeconfig_gke-hybrid-cloud
-      - kubeconfig_eks-hybrid-cloud
-      - config-map-aws-auth_eks-hybrid-cloud.yaml
-      - remote-cluster-auth
   script:
     - terraform apply -input=false -auto-approve
   dependencies:
@@ -97,14 +90,6 @@ apply:
 destroy:
   stage: destroy
   retry: 1
-  cache:
-    key: "$CI_COMMIT_REF_SLUG"
-    paths:
-      - ~/.helm/
-      - kubeconfig_gke-hybrid-cloud
-      - kubeconfig_eks-hybrid-cloud
-      - config-map-aws-auth_eks-hybrid-cloud.yaml
-      - remote-cluster-auth
   script:
     - terraform destroy -auto-approve
   dependencies:
