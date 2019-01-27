@@ -9,6 +9,7 @@ before_script:
   - kubectl version --client=true
   - terraform --version
   - helm init --client-only
+  - helm repo add istio https://s3-us-west-2.amazonaws.com/vxlan.io/charts
   - mkdir -p ~/.gcp
   - echo $GCPCRED | base64 -d > ~/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
   - gcloud auth activate-service-account --key-file=/root/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
