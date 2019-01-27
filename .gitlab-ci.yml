@@ -1,5 +1,5 @@
 image:
-  name: google/cloud-sdk
+  name: registry.gitlab.com/magic7s/k8s-hybrid-cloud:latest
   entrypoint:
     - '/usr/bin/env'
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
@@ -7,22 +7,8 @@ image:
 before_script:
   - gcloud --version
   - kubectl version --client=true
-  - apt-get install -qqy unzip
-  - curl -O https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip
-  - unzip terraform_0.11.11_linux_amd64.zip
-  - install terraform /usr/local/bin/
   - terraform --version
-  - curl -O https://storage.googleapis.com/kubernetes-helm/helm-v2.12.2-linux-amd64.tar.gz
-  - tar -xzvf helm-v2.12.2-linux-amd64.tar.gz
-  - install linux-amd64/tiller /usr/local/bin/
-  - install linux-amd64/helm /usr/local/bin/
   - helm init --client-only
-  - curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator
-  - install aws-iam-authenticator /usr/local/bin/
-  - curl -L -O https://github.com/terraform-providers/terraform-provider-helm/releases/download/v0.6.0/terraform-provider-helm_v0.6.0_linux_amd64.tar.gz
-  - tar -xzvf terraform-provider-helm_v0.6.0_linux_amd64.tar.gz
-  - mkdir -p ~/.terraform.d/plugins
-  - install terraform-provider-helm_linux_amd64/terraform-provider-helm ~/.terraform.d/plugins/
   - mkdir -p ~/.gcp
   - echo $GCPCRED | base64 -d > ~/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
   - gcloud auth activate-service-account --key-file=/root/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
@@ -33,11 +19,33 @@ before_script:
   - terraform init
 
 stages:
+  - build
   - validate
   - plan
   - apply
   - destroy
 
+docker build:
+  image: docker:stable
+  variables:
+    CONTAINER_IMAGE: registry.gitlab.com/$CI_PROJECT_PATH
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+  services:
+  - docker:dind
+  stage: build
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+  script:
+    - docker pull $CONTAINER_IMAGE:latest || true
+    - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_COMMIT_SHA --tag $CONTAINER_IMAGE:latest .
+    - docker push $CONTAINER_IMAGE:$CI_COMMIT_SHA
+    - docker push $CONTAINER_IMAGE:latest
+  only:
+    changes:
+      - Dockerfile
+      
+      
 validate:
   stage: validate
   script:
