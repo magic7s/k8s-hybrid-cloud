@@ -3,6 +3,14 @@
 Also hosted at https://gitlab.com/magic7s/k8s-hybrid-cloud for CI/CD capabilities.
 
 _Requirements_
+Either install the requirements below or use the Dockerfile. You can also leverage gitlab CI/CD to run the container for you.
+```bash
+docker build -t myimage:latest .
+docker run -it myimage
+# git clone https://github.com/magic7s/k8s-hybrid-cloud.git
+# terraform init
+```
+
 * Must have AWS kubectl available in PATH
 * Must have AWS aws-iam-authenticator available in PATH
 * Must have gcloud cli available in PATH
