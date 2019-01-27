@@ -54,6 +54,14 @@ validate:
 
 plan:
   stage: plan
+  cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    paths:
+      - ~/.helm/
+      - kubeconfig_gke-hybrid-cloud
+      - kubeconfig_eks-hybrid-cloud
+      - config-map-aws-auth_eks-hybrid-cloud.yaml
+      - remote-cluster-auth
   script:
     - terraform plan -out "planfile"
   dependencies:
