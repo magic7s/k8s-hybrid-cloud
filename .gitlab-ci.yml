@@ -29,7 +29,7 @@ stages:
 cache:
   key: "$CI_COMMIT_REF_SLUG"
   paths:
-    - $HELM_HOME/*
+    - ~/.helm/*
     - kubeconfig_gke-hybrid-cloud
     - kubeconfig_eks-hybrid-cloud
     - config-map-aws-auth_eks-hybrid-cloud.yaml
