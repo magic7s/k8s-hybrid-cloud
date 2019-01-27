@@ -41,7 +41,6 @@ docker build:
     - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_COMMIT_SHA --tag $CONTAINER_IMAGE:latest .
     - docker push $CONTAINER_IMAGE:$CI_COMMIT_SHA
     - docker push $CONTAINER_IMAGE:latest
-  script: docker build -t my-image:$CI_COMMIT_REF_SLUG .
   only:
     changes:
       - Dockerfile
