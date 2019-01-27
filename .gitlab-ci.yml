@@ -19,11 +19,34 @@ before_script:
   - terraform init
 
 stages:
+  - build
   - validate
   - plan
   - apply
   - destroy
 
+docker build:
+  image: docker:stable
+  variables:
+    CONTAINER_IMAGE: registry.gitlab.com/$CI_PROJECT_PATH
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+  services:
+  - docker:dind
+  stage: build
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+  script:
+    - docker pull $CONTAINER_IMAGE:latest || true
+    - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_COMMIT_SHA --tag $CONTAINER_IMAGE:latest .
+    - docker push $CONTAINER_IMAGE:$CI_COMMIT_SHA
+    - docker push $CONTAINER_IMAGE:latest
+  script: docker build -t my-image:$CI_COMMIT_REF_SLUG .
+  only:
+    changes:
+      - Dockerfile
+      
+      
 validate:
   stage: validate
   script:
