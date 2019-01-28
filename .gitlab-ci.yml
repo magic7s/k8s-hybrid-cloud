@@ -27,9 +27,8 @@ stages:
   - destroy
 
 cache:
-  key: "$CI_COMMIT_REF_SLUG"
+  key: "$CI_COMMIT_SHA"
   paths:
-    - ~/.helm/*
     - kubeconfig_gke-hybrid-cloud
     - kubeconfig_eks-hybrid-cloud
     - config-map-aws-auth_eks-hybrid-cloud.yaml
@@ -73,6 +72,8 @@ plan:
 
 apply:
   stage: apply
+  variables:
+    CI_DEBUG_TRACE: "true"
   retry: 1
   script:
     - terraform apply -input=false -auto-approve
