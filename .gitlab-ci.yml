@@ -72,7 +72,6 @@ plan:
 
 apply:
   stage: apply
-  retry: 1
   script:
     - terraform apply -input=false -auto-approve || true
     - terraform apply -input=false -auto-approve
