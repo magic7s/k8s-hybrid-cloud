@@ -72,8 +72,6 @@ plan:
 
 apply:
   stage: apply
-  variables:
-    CI_DEBUG_TRACE: "true"
   retry: 1
   script:
     - terraform apply -input=false -auto-approve
