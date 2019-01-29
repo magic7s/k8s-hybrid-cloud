@@ -11,7 +11,7 @@ resource "null_resource" "istio-svc-act-gke" {
       KUBECONFIG = "${ local.control_cluster_kubeconfig }"
     }
 
-    command = "kubectl apply -f ${var.ISTIO_helm_yaml_url}"
+    command = "sleep 60;kubectl apply -f ${var.ISTIO_helm_yaml_url}"
   }
 
   provisioner "local-exec" {
@@ -38,7 +38,7 @@ resource "null_resource" "istio-svc-act-eks" {
       KUBECONFIG = "${ local.remote_cluster_kubeconfig }"
     }
 
-    command = "kubectl apply -f ${var.ISTIO_helm_yaml_url}"
+    command = "sleep 60;kubectl apply -f ${var.ISTIO_helm_yaml_url}"
   }
 
   provisioner "local-exec" {
