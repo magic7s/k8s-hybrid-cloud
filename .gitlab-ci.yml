@@ -9,6 +9,7 @@ before_script:
   - kubectl version --client=true
   - terraform --version
   - helm init --client-only
+  - helm repo add istio https://s3-us-west-2.amazonaws.com/vxlan.io/charts
   - mkdir -p ~/.gcp
   - echo $GCPCRED | base64 -d > ~/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
   - gcloud auth activate-service-account --key-file=/root/.gcp/k8s-hybrid-cloud-0f1ceb09cf2a.json
@@ -24,6 +25,14 @@ stages:
   - plan
   - apply
   - destroy
+
+cache:
+  key: "$CI_COMMIT_SHA"
+  paths:
+    - kubeconfig_gke-hybrid-cloud
+    - kubeconfig_eks-hybrid-cloud
+    - config-map-aws-auth_eks-hybrid-cloud.yaml
+    - remote-cluster-auth
 
 docker build:
   image: docker:stable
@@ -64,7 +73,8 @@ plan:
 apply:
   stage: apply
   script:
-    - terraform apply -input=false -auto-approve "planfile"
+    - terraform apply -input=false -auto-approve || true
+    - terraform apply -input=false -auto-approve
   dependencies:
     - plan
   artifacts:
@@ -78,8 +88,8 @@ apply:
   
 destroy:
   stage: destroy
+  retry: 1
   script:
-    - terraform state rm helm_repository.istio 
     - terraform destroy -auto-approve
   dependencies:
     - apply
