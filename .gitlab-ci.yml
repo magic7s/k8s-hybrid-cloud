@@ -74,6 +74,7 @@ apply:
   stage: apply
   retry: 1
   script:
+    - ls -la
     - terraform apply -input=false -auto-approve
   dependencies:
     - plan
