@@ -75,6 +75,7 @@ apply:
   retry: 1
   script:
     - ls -la
+    - terraform apply -input=false -auto-approve || true
     - terraform apply -input=false -auto-approve
   dependencies:
     - plan
