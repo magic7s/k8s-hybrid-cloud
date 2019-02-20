@@ -20,6 +20,7 @@ before_script:
   - terraform init
 
 stages:
+  - pre-build
   - build
   - validate
   - plan
@@ -33,6 +34,21 @@ cache:
     - kubeconfig_eks-hybrid-cloud
     - config-map-aws-auth_eks-hybrid-cloud.yaml
     - remote-cluster-auth
+
+terraform helm compile:
+  image:golang
+  stage: pre-build
+  script:
+    - go get -d github.com/terraform-providers/terraform-provider-helm
+    - cd $GOPATH/src/github.com/terraform-providers/terraform-provider-helm
+    - git checkout v0.8.0
+    - go build .
+  artifacts:
+    paths:
+      - $GOPATH/bin/terraform-provider-helm
+  only:
+    changes:
+      - Dockerfile
 
 docker build:
   image: docker:stable
