@@ -41,13 +41,12 @@ terraform helm compile:
   before_script:
     - echo $GOPATH
   script:
-    - pwd
-    - export WORKDIR=(`pwd`)
+    - echo $CI_PROJECT_DIR
     - go get -d github.com/terraform-providers/terraform-provider-helm
     - cd $GOPATH/src/github.com/terraform-providers/terraform-provider-helm
     - git checkout v0.8.0
-    - go build -o $WORKDIR/terraform-provider-helm .
-    - ls -la
+    - go build -o $CI_PROJECT_DIR/terraform-provider-helm .
+    - test -f $CI_PROJECT_DIR/terraform-provider-helm
   artifacts:
     paths:
       - terraform-provider-helm

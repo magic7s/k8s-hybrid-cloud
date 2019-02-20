@@ -47,4 +47,3 @@ install aws-iam-authenticator /usr/local/bin/
 # Install terraform-provider-helm
 RUN mkdir -p ~/.terraform.d/plugins
 COPY terraform-provider-helm ~/.terraform.d/plugins/
-
