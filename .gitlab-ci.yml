@@ -45,6 +45,7 @@ terraform helm compile:
     - cd $GOPATH/src/github.com/terraform-providers/terraform-provider-helm
     - git checkout v0.8.0
     - go build -o /tmp/terraform-provider-helm .
+    - ls -la /tmp
   artifacts:
     paths:
       - /tmp/terraform-provider-helm
