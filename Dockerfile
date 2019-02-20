@@ -17,7 +17,6 @@ lsb-release \
 openssh-client \ 
 git \ 
 gnupg \ 
-golang \
 && easy_install -U pip && \ 
 pip install -U crcmod && \ 
 export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \ 
@@ -48,4 +47,3 @@ install aws-iam-authenticator /usr/local/bin/
 # Install terraform-provider-helm
 RUN mkdir -p ~/.terraform.d/plugins
 COPY /tmp/terraform-provider-helm ~/.terraform.d/plugins/
-
