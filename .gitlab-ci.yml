@@ -39,6 +39,7 @@ terraform helm compile:
   image: golang
   stage: pre-build
   before_script:
+    - echo $GOPATH
   script:
     - go get -d github.com/terraform-providers/terraform-provider-helm
     - cd $GOPATH/src/github.com/terraform-providers/terraform-provider-helm
