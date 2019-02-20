@@ -62,6 +62,8 @@ docker build:
   services:
   - docker:dind
   stage: build
+  dependencies:
+    - terraform helm compile
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
   script:
