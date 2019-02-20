@@ -36,7 +36,7 @@ cache:
     - remote-cluster-auth
 
 terraform helm compile:
-  image:golang
+  image: golang
   stage: pre-build
   script:
     - go get -d github.com/terraform-providers/terraform-provider-helm
