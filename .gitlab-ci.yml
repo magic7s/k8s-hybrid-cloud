@@ -20,6 +20,7 @@ before_script:
   - terraform init
 
 stages:
+  - pre-build
   - build
   - validate
   - plan
@@ -34,6 +35,25 @@ cache:
     - config-map-aws-auth_eks-hybrid-cloud.yaml
     - remote-cluster-auth
 
+terraform helm compile:
+  image: golang
+  stage: pre-build
+  before_script:
+    - echo $GOPATH
+  script:
+    - echo $CI_PROJECT_DIR
+    - go get -d github.com/terraform-providers/terraform-provider-helm
+    - cd $GOPATH/src/github.com/terraform-providers/terraform-provider-helm
+    - git checkout v0.8.0
+    - go build -o $CI_PROJECT_DIR/terraform-provider-helm .
+    - test -f $CI_PROJECT_DIR/terraform-provider-helm
+  artifacts:
+    paths:
+      - terraform-provider-helm
+  only:
+    changes:
+      - Dockerfile
+
 docker build:
   image: docker:stable
   variables:
@@ -43,6 +63,8 @@ docker build:
   services:
   - docker:dind
   stage: build
+  dependencies:
+    - terraform helm compile
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
   script:
