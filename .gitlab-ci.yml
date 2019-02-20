@@ -44,10 +44,10 @@ terraform helm compile:
     - go get -d github.com/terraform-providers/terraform-provider-helm
     - cd $GOPATH/src/github.com/terraform-providers/terraform-provider-helm
     - git checkout v0.8.0
-    - go build .
+    - go build -o /tmp/terraform-provider-helm .
   artifacts:
     paths:
-      - $GOPATH/bin/terraform-provider-helm
+      - /tmp/terraform-provider-helm
   only:
     changes:
       - Dockerfile

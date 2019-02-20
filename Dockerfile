@@ -48,6 +48,6 @@ install aws-iam-authenticator /usr/local/bin/
 # Install terraform-provider-helm
 #RUN curl -L -O https://github.com/terraform-providers/terraform-provider-helm/releases/download/v0.6.0/terraform-provider-helm_v0.6.0_linux_amd64.tar.gz && \
 #tar -xzvf terraform-provider-helm_v0.6.0_linux_amd64.tar.gz && \
-#mkdir -p ~/.terraform.d/plugins && \
+mkdir -p ~/.terraform.d/plugins && \
 #install terraform-provider-helm_linux_amd64/terraform-provider-helm ~/.terraform.d/plugins/
-
+COPY /tmp/terraform-provider-helm ~/.terraform.d/plugins/
